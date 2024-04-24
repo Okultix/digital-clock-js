@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Digital Clock</title>
+<style>
+  body {
+    font-family: Arial, sans-serif;
+    text-align: center;
+    background-color: #333;
+    color: #FFFF00; /* Yellow */
+  }
+  
+  #clock {
+    font-size: 10vw; /* 10% of the viewport width */
+    margin-top: 40vh; /* 20% of the viewport height */
+    font-weight: bold;
+    text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.8); /* Added text shadow */
+    animation: colorChange 5s infinite alternate;
+  }
+
+  #clock span {
+    color: rgb(119, 234, 243); /* Blue color for colons */
+  }
+
+  #timezone {
+    color: #FFFFFF; /* White */
+    margin-top: 2vh; /* 2% of the viewport height */
+  }
+
+  @keyframes colorChange {
+    0% {
+      color: #FFFF00; /* Yellow */
+    }
+    50% {
+      color: #FF5733; /* Orange */
+    }
+    100% {
+      color: #FF0000; /* Red */
+    }
+  }
+</style>
+</head>
+<body>
+<div id="clock"></div>
+<div id="timezone"></div>
+
+<script>
+  const timezones = ['America/New_York', 'Europe/London', 'Asia/Tokyo', 'Australia/Sydney'];
+
+  function updateTime() {
+    const now = new Date();
+    const hours = now.getHours().toString().padStart(2, '0');
+    const minutes = now.getMinutes().toString().padStart(2, '0');
+    const seconds = now.getSeconds().toString().padStart(2, '0');
+    const timeString = `${hours}<span>:</span>${minutes}<span>:</span>${seconds}`;
+    document.getElementById('clock').innerHTML = timeString;
+  }
+
+  function changeTimezone() {
+    const randomIndex = Math.floor(Math.random() * timezones.length);
+    const randomTimezone = timezones[randomIndex];
+    const options = {timeZone: randomTimezone, hour12: false};
+    const timeString = new Date().toLocaleTimeString('en-US', options);
+    document.getElementById('clock').textContent = timeString;
+    document.getElementById('timezone').textContent = randomTimezone;
+    document.getElementById('clock').style.animationPlayState = 'paused'; // Pause the animation
+    setTimeout(() => {
+      document.getElementById('clock').style.animationPlayState = 'running'; // Resume the animation after 10 seconds
+    }, 10000); // Pause for 10 seconds
+  }
+
+  // Call updateTime every second
+  setInterval(updateTime, 1000);
+
+  // Initial call to display the time immediately
+  updateTime();
+</script>
+</body>
+</html>
+
+
+
